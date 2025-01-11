@@ -5,13 +5,9 @@ import {
 } from "../src/utils/generateBench.ts";
 
 Deno.bench("Linear Search", { group: "100K" }, () => {
-  binaryBenchSearch(CEM_MIL);
+  linearBenchSearch(CEM_MIL);
 });
 
-Deno.bench(
-  "Binary Search",
-  { group: "100K", baseline: true },
-  () => {
-    linearBenchSearch(CEM_MIL);
-  },
-);
+Deno.bench("Binary Search", { group: "100K", baseline: true }, () => {
+  binaryBenchSearch(CEM_MIL);
+});
