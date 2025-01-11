@@ -1,0 +1,16 @@
+\section{Discussão sobre Estrutura de Dados}
+
+Com os resultados exibidos, nota-se que a medida que o tamanho da lista aumenta,
+também aumenta muito o custo da busca linear, em comparação com a busca binária.
+
+Entretando, vale ressaltar que a busca binária tem a limitação de só funcionar em
+listar ordenadas. Desse modo, se não existe garantia da ordenação da lista, seria necessário
+ordenar a lista para então buscar. 
+
+Sabemos que o custo da ordenação nos melhores algoritmos é de $O(n \log n)$, então a complexidade
+para ordenar e buscar (pior caso da busca binária), é inferior a busca linear. 
+
+Com isso em mente, nota-se que caso seja sempre a mesma lista a ser buscada diversar vezes, sem 
+necessidade de adicionar muitos elementos que desordenem a lista, vale a pena fazer uma única ordenação,
+e então se beneficiar da busca binária nas buscas subsequentes. Caso não exista informação nenhuma sobre a 
+lista a ser buscada, é melhor utilizar a busca linear.

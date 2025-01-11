@@ -1,0 +1,128 @@
+\section{Análise de Desempenho}
+
+Nesta seção, discutiremos a complexidade de tempo de cada uma das estratégias implementadas 
+e faremos uma análise teórica sobre o impacto de diferentes tamanhos de vetor no tempo de execução.
+
+\subsection{Complexidade de Tempo (Big-O)}
+
+A complexidade de tempo de cada uma das estratégias de busca é analisada com base no número de 
+operações realizadas em função do tamanho do vetor de entrada, denotado como \( n \).
+
+\subsubsection{LinearSearchStrategy}
+
+A busca linear percorre o vetor elemento por elemento até encontrar o valor procurado ou chegar 
+ao final do vetor. Assim, no pior caso, ela realizará \( n \) comparações, onde \( n \) é o tamanho do vetor.
+
+\textbf{Complexidade:} 
+\[
+O(n)
+\]
+
+Isso significa que, à medida que o tamanho do vetor aumenta, o tempo de execução cresce linearmente.
+
+\subsubsection{BinarySearchStrategy}
+
+A busca binária, por sua vez, é muito mais eficiente do que a busca linear. Ela começa com o vetor 
+ordenado e divide o vetor ao meio a cada iteração, descartando metade dos elementos a cada passo. 
+O número de comparações necessárias é reduzido drasticamente, resultando em uma complexidade de tempo logarítmica.
+
+\textbf{Complexidade:}
+\[
+O(\log n)
+\]
+
+Neste caso, o tempo de execução cresce muito mais devagar à medida que o tamanho do vetor aumenta, 
+pois o número de comparações diminui exponencialmente.
+
+\subsection{Medições de Tempo de Execução}
+
+Para comparar o desempenho das duas estratégias, realizamos medições de tempo em diferentes tamanhos de vetor. 
+A seguir, discutimos os resultados esperados e como os tempos de execução variam com o tamanho do vetor para cada uma das estratégias.
+
+\subsubsection{Resultados Esperados}
+
+Como o comportamento das duas estratégias segue as complexidades \( O(n) \) e \( O(\log n) \), 
+podemos esperar que, para vetores menores, a diferença no tempo de execução não seja tão significativa. 
+No entanto, conforme o vetor cresce, a diferença se torna mais notável.
+
+\subsubsection{Metodologia aplicada}
+
+Para realizar os testes, foram criados arquivos de benchmark da ferramenta $Deno$, 
+que realiza uma função diversas vezes para pegar a média, e retorna as informações bem
+organizadas sobre o benchmark. A seguir temos um exemplo de uma função de benchmark do Deno:
+
+
+\begin{verbatim}
+Deno.bench("Linear Search", { group: "50" }, () => {
+  linearBenchSearch(CINQUENTA);
+});
+\end{verbatim}
+
+Para esses testes, foram feitas funções (linearBenchSearch e BinaryBenchSearch) 
+que criam listas aleatórias e ordenadas com o tamanho passado como argumento,
+inicializam as classes e então realizam a busca de todos os elementos daquea lista
+pela estratégia escolhida. Segue exemplo da função linear:
+
+
+\begin{verbatim}
+export function linearBenchSearch(length: number) {
+  const inventory: number[] = generateSortedRandomList(length);
+  const linearSearch = new LinearSearchStrategy<number>();
+
+  const ctx1 = new InventorySearchStrategy<number>(linearSearch, inventory);
+
+  for (let i = 0; i < inventory.length; i++) {
+    ctx1.executeSearch(inventory[i]);
+  }
+}
+\end{verbatim}
+
+\subsubsection{Resultado dos testes}
+
+Abaixo estão os resultados de desempenho obtidos em benchmarks de busca linear e 
+busca binária para diferentes tamanhos de vetores. As medições foram realizadas 
+em uma máquina com CPU AMD Ryzen 5 5600 6-Core Processor e utilizando o runtime 
+Deno 2.1.4 (x86\_64-unknown-linux-gnu).
+
+\vspace{5mm}
+
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Benchmark} & \textbf{Tempo/Iteração (média)} \\
+\hline
+Linear Search & 6.2 µs \\
+Binary Search & 6.8 µs \\
+\hline
+\end{tabular}
+
+\vspace{1mm}
+
+\textbf{Legenda:} Comparação em listas de tamanho 50.
+
+\vspace{5mm}
+
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Benchmark} & \textbf{Tempo/Iteração (média)} \\
+\hline
+Linear Search & 739.8 µs \\
+Binary Search & 183.0 µs \\
+\hline
+\end{tabular}
+
+\textbf{Legenda:} Comparação em listas de tamanho 1000.
+
+\vspace{5mm}
+
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Benchmark} & \textbf{Tempo/Iteração (média)} \\
+\hline
+Linear Search & 20.4 ms \\
+Binary Search & 2.5 s \\
+\hline
+\end{tabular}
+
+\textbf{Legenda:} Comparação em listas de tamanho 100.000.
+
+\vspace{5mm}

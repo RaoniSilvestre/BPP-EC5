@@ -1,0 +1,24 @@
+\section{Descrição do padrão Strategy}
+
+O padrão de projeto Strategy é uma solução utilizada para encapsular diferentes
+algoritmos ou comportamentos, permitindo que eles sejam selecionados dinamicamente 
+em tempo de execução. Ele é composto por três elementos principais: a interface que 
+define a estratégia, as implementações concretas das estratégias, e o contexto que 
+utiliza uma dessas estratégias.
+
+Neste projeto, a interface SearchStrategy representa a definição de uma estratégia 
+de busca, exigindo que todas as implementações forneçam um método para buscar 
+valores em um vetor de um tipo qualquer. As classes concretas, LinearSearchStrategy 
+e BinarySearchStrategy, implementam essa interface, encapsulando os algoritmos de 
+busca linear e binária, respectivamente.
+
+A classe LinearSearchStrategy percorre sequencialmente o vetor em busca 
+do valor desejado, sendo ideal para vetores pequenos ou não ordenados. 
+Já a classe BinarySearchStrategy explora a ordenação dos elementos no vetor 
+para realizar a busca de forma mais eficiente, dividindo o espaço de busca 
+pela metade a cada iteração, mas exige que o vetor esteja ordenado.
+
+Essa estrutura permite que o método de busca seja configurado de maneira 
+flexível, possibilitando a troca entre diferentes estratégias sem modificar 
+o código que utiliza a busca, alinhando-se ao princípio aberto/fechado 
+(Open/Closed Principle) da programação orientada a objetos.

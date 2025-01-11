@@ -1,0 +1,121 @@
+\section{Implementação}
+
+A implementação do padrão Strategy para busca é composta por três classes principais, uma interface e uma classe de contexto opcional. A seguir, é apresentada a estrutura básica e a lógica de cada parte:
+
+\subsection{Classe SearchStrategy (Interface)}
+
+A interface \texttt{SearchStrategy} define o método \texttt{search}, 
+que será implementado pelas classes concretas. Esse método recebe um 
+array de T e um valor de busca (\texttt{target}), 
+retornando $true$ se o valor for encontrado ou $false$ caso o valor 
+não seja encontrado.
+
+\begin{verbatim}
+export default interface SearchStrategy<T> {
+    search(vec: T[], target: T): boolean
+}
+\end{verbatim}
+
+\subsection{Classe LinearSearchStrategy}
+
+A classe \texttt{LinearSearchStrategy} implementa a interface \texttt{SearchStrategy} 
+com a busca linear. A busca linear percorre o array elemento por elemento, 
+verificando se o valor procurado está presente.
+
+\begin{verbatim}
+export class LinearSearchStrategy<T> implements SearchStrategy<T> {
+  constructor() {}
+
+  search(vec: T[], target: T): boolean {
+    vec.forEach((item) => {
+      if (item === target) return true;
+    });
+
+    return false;
+  }
+}
+\end{verbatim}
+
+\subsection{Classe BinarySearchStrategy}
+
+A classe \texttt{BinarySearchStrategy} também implementa a interface 
+\texttt{SearchStrategy}, mas utiliza a busca binária, que é mais 
+eficiente. A busca binária pressupõe que o array esteja ordenado. 
+A estratégia consiste em dividir o array ao meio repetidamente e verificar 
+em qual metade o valor pode estar, até encontrar o valor ou determinar 
+que ele não está presente.
+
+\begin{verbatim}
+export class BinarySearchStrategy<T> implements SearchStrategy<T> {
+    constructor() {}
+
+    public search(vec: T[], target: T): boolean {
+        let left = 0;
+        let right = vec.length - 1;
+
+        while (left <= right) {
+            const mid = Math.floor((left + right) / 2);
+            
+            if (vec[mid] === target) {
+                return true;
+            }
+
+            if (vec[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return false;
+    }
+}
+\end{verbatim}
+
+\subsection{Classe de Contexto}
+
+A classe de contexto \texttt{InventorySearchStrategy} facilita a troca 
+de estratégias de busca em tempo de execução. Ela contém um campo 
+\texttt{searchStrategy} que define a estratégia de busca atual e um método 
+\texttt{setSearchStrategy} para alterar a estratégia. O método \texttt{executeSearch} 
+é responsável por executar a busca utilizando a estratégia atual.
+
+\begin{verbatim}
+export class InventorySearchStrategy<T> {
+    private searchStrategy: SearchStrategy<T>;
+    private inventory: T[]
+
+    constructor(searchStrategy: SearchStrategy<T>, inventory: T[]) {
+        this.searchStrategy = searchStrategy
+        this.inventory =inventory
+    }
+
+    setSearchStrategy(s: SearchStrategy<T>) { this.searchStrategy = s}
+
+    executeSearch(target: T): boolean { 
+        return this.searchStrategy.search(this.inventory, target)
+    }
+}
+\end{verbatim}
+
+\subsection{Exemplo de Uso}
+
+No exemplo a seguir, um objeto \texttt{InventorySearchStrategy} é criado com a estratégia 
+\texttt{LinearSearchStrategy}. O método \texttt{executeSearch} é chamado para 
+buscar o valor \texttt{3} no array. Em seguida, a estratégia de busca é 
+alterada para \texttt{BinarySearchStrategy}, e a busca é realizada novamente, 
+mas em um array ordenado.
+
+\begin{verbatim}
+let context = new InventorySearchStrategy(new LinearSearchStrategy());
+let arr = [5, 8, 1, 3, 9];
+let target = 3;
+console.log(context.executeSearch(arr, target)); // Resultado: 3
+
+context.setStrategy(new BinarySearchStrategy());
+arr = [1, 3, 5, 8, 9]; // O arr precisa estar ordenado para a busca binária
+console.log(context.executeSearch(arr, target)); // Resultado: 3
+\end{verbatim}
+
+Essa implementação permite alternar entre diferentes estratégias de busca de 
+maneira flexível, proporcionando uma solução escalável para diferentes cenários.

@@ -1,0 +1,20 @@
+\section{Introdução}
+
+Em sistemas de gerenciamento de inventário, é comum a necessidade
+de localizar produtos específicos em coleções de dados, como vetores
+que armazenam códigos de produtos. A eficiência dessas buscas desempenha
+um papel fundamental, especialmente em sistemas com alta quantidade 
+de registros ou que exigem respostas rápidas.
+
+A busca em um vetor, por sua vez, pode ser realizada de diferentes maneiras,
+sendo as mais comuns a busca linear e a busca binária. Enquanto a busca linear
+verifica sequencialmente os elementos do vetor, a busca binária aproveita a
+ordenação dos dados para reduzir o número de comparações pela metade a cada iteração.
+Entretanto, cada abordagem apresenta vantagens e desvantagens que dependem do cenário 
+de aplicação, como o tamanho do vetor e a ordenação dos dados.
+
+Este relatório aborda a implementação de duas estratégias de busca em um vetor,
+utilizando o padrão de projeto Strategy para permitir a troca dinâmica 
+entre os métodos. Além disso, são realizados testes de desempenho para comparar 
+as estratégias em diferentes tamanhos de vetores, discutindo os trade-offs entre 
+eficiência e complexidade.
